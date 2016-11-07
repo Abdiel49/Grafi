@@ -9,21 +9,21 @@ Example:
 
 It has the following features:
 
-To draw:
--brash
--line
--circle
--rectangle
--ellipse
--spray
--eraser
+To draw:<br>
+-brash<br>
+-line<br>
+-circle<br>
+-rectangle<br>
+-ellipse<br>
+-spray<br>
+-eraser<br>
 
-To use:
--change color
--change line width
--change line opacity
--undo
--redo
--clear
--download picture on your computer
+To use:<br>
+-change color<br>
+-change line width<br>
+-change line opacity<br>
+-undo<br>
+-redo<br>
+-clear<br>
+-download picture on your computer<br>
 -copy/paste any region
