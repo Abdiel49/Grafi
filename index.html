@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+</head>
+<body>
+
+<div id="content">
+  <span id="tools">
+     <button id="brush">Кисть</button>
+     <button id="line">Линия</button>
+     <button id="rectangle">Прямоугольник</button>
+     <button id="circle">Круг</button>
+     <button id="ellipse">Эллипс</button>
+     <button id="spray">Распылитель</button>
+     <button id="eraser">Стерка</button><br>
+     <button id="copy">Копировать</button>
+     <button id="paste">Вставить</button>
+  </span>
+
+    <span id="colors">
+			<button class="black" id="#000000"> </button>
+			<button class="white" id='#FFFFFF'> </button>
+			<button class="blue" id='#0000FF'> </button>
+		  	<button class="red" id='#FF0000'> </button>
+			<button class="yellow" id='#FFFF00'> </button>
+			<button class="green" id='#008000'> </button>
+			<button class="purple" id='#800080'> </button>
+
+			<input type="hidden" id="color_value_form">
+    </span>
+
+    <div id="areaForPaint">
+        <canvas id="paint"></canvas>
+    </div>
+
+    <div id="functions">
+        <br>
+        <button id="undo">Отменить</button>
+        <button id="redo">Вернуть</button>
+        <button id="id_download">Сохранить</button>
+        <button id="clear">Очистить</button>
+        <br>
+        <canvas id="brush_size" width="50" height="50"></canvas>
+        Кисть
+        Размер <input type="range" id="width_range" value="10">
+        Прозрачность <input type="range" id="opacity_range" value="100">
+
+    </div>
+</div>
+<p>Уже сделано</p>
+<ul>
+    <li>Кисть</li>
+    <li>Прямоугольник</li>
+    <li>Стерка</li>
+    <li>Выбор цвета</li>
+    <li>Очистка области</li>
+    <li>Рисование фигур(круг, элипс)</li>
+    <li>Изменение размера линии</li>
+    <li>Изменение прозрачности линии</li>
+    <li>Аналог "Отменить действие" и "Вернуть"</li>
+    <li>Сохранение изображения на компьютер</li>
+    <li>Линия - распылитель</li>
+</ul>
+<p>Хочу реализовать</p>
+<ul>
+    <li>Буферизация(копировать,вставить)</li>
+    <li>Текстовая строка</li>
+</ul>
+
+<script src="jquery.min.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
