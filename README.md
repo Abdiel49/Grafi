@@ -1,4 +1,4 @@
-# paint
+# paint js canvas
 js canvas
 
 This is sample draw app, which use canvas(html5).
