@@ -5,7 +5,7 @@ This is sample draw app, which use canvas(html5).
 If you wants to use this, you can dowload this and save on your server.
 This app have some code on jquery. But you can rewrite some lines and to do this without jquery.
 
-Example: <pre class="_cssdeck_embed" data-pane="output" data-user="medwedd" data-href="nzef27so" data-version="0"></pre><script async src="http://cssdeck.com/assets/js/embed.js"></script>
+Example: http://cssdeck.com/labs/full/nzef27so
 
 It has the following features:
 
@@ -27,3 +27,5 @@ To use:<br>
 -clear<br>
 -download picture on your computer<br>
 -copy/paste any region
+<br>
+For copy:<br> 1.Click on copy.<br> 2.Select any region(you will not see anything, but the action is performed as soon as you release the mouse up).<br> 3.Now click on paste.<br> 4.Click in random region on canvas and the image will be inserted.
