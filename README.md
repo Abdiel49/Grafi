@@ -5,7 +5,7 @@ This is sample draw app, which use canvas(html5).
 If you wants to use this, you can dowload this and save on your server.
 This app have some code on jquery. But you can rewrite some lines and to do this without jquery.
 
-Example: 
+Example: <pre class="_cssdeck_embed" data-pane="output" data-user="medwedd" data-href="nzef27so" data-version="0"></pre><script async src="http://cssdeck.com/assets/js/embed.js"></script>
 
 It has the following features:
 
