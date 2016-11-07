@@ -30,3 +30,5 @@ To use:<br>
 
 
 For copy:<br> 1.Click on copy.<br> 2.Select any region(you will not see anything, but the action is performed as soon as you release the mouse up).<br> 3.Now click on paste.<br> 4.Click in random region on canvas and the image will be inserted.
+
+Notice: if canvas contains only one drawing object, the button undo dont works. But it works for two drawing object. 
