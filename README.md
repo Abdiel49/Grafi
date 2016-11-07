@@ -1,7 +1,6 @@
-# paint js canvas
-js canvas
+# paint js/html5
 
-This is sample draw app, which use canvas(html5).
+This is simple paint, which use canvas(html5).
 If you wants to use this, you can dowload this and save on your server.
 This app have some code on jquery. But you can rewrite some lines and to do this without jquery.
 
