@@ -16,11 +16,13 @@ To draw:<br>
 -ellipse<br>
 -spray<br>
 -eraser<br>
+-text<br>
 
 To use:<br>
 -change color<br>
 -change line width<br>
 -change line opacity<br>
+-change text size<br>
 -undo<br>
 -redo<br>
 -clear<br>
