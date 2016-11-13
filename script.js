@@ -1,9 +1,9 @@
 (function () {
 
-    //определяем основную область для рисования
+//определяем основную область для рисования
     var canvas = document.querySelector('#paint');
     var ctx = canvas.getContext('2d');
-    //устанавливаем размеры для основной области, берем из div#sketch
+    //устанавливаем размеры для основной области, берем из div#areaForPaint
     var areaForPaint = document.querySelector('#areaForPaint');
     var areaForPaint_style = getComputedStyle(areaForPaint);
     canvas.width = parseInt(areaForPaint_style.getPropertyValue('width'));
@@ -27,24 +27,35 @@
     //добавляем в DOM
     areaForPaint.appendChild(tmp_canvas);
 
+    //область для текста
+    var textarea = document.createElement('textarea');
+    textarea.id = 'text_tool';
+    areaForPaint.appendChild(textarea);
+
+    // Вспомогательный контейнер для текста
+    // в нем будут линии/символы
+    var tmp_txt_ctn = document.createElement('div');
+    tmp_txt_ctn.style.display = 'none';
+    areaForPaint.appendChild(tmp_txt_ctn);
+
+    //ВСПОМОГАТЕЛЬНЫЙ ПЕРЕМЕННЫЕ И МАССИВЫ
     //определяем объект мышь с координатами x,y
     var mouse = {x: 0, y: 0};
     var start_mouse = {x: 0, y: 0};
-    //Для спрея
-    var sprayIntervalID;
     //Для буферизации
     var imgData;
-
     //Массив точек для отрисовки линии
     var ppts = [];
-
     //Массив в котором хранятся элементы(используется для "Отменить" и "Вернуть")
     var undo_arr = [];
     var undo_count = 0;
     var empty_canv;
+    //сохраняем информацию о текущей линии
+    var lastWidth;
+    var lastColor;
 
-
-    //Текущий инструмент
+    //БЕРЕМ НАСТРОЙКИ ИЗ HTML ФОРМЫ
+    //Текущий инструмент по умолчанию
     var tool = 'brush';
 
     //По нажатию на кнопку устанавливаем инструмент
@@ -53,7 +64,11 @@
         console.log(tool);
     });
 
-
+    //Устанавливаем размер шрифта
+    document.getElementById("text-size").addEventListener("change", function () {
+        var size = document.getElementById("text-size").value;
+        document.getElementById("text_tool").style.fontSize = parseInt(size) + "px";
+    });
     //По нажатию на кнопку устанавливаем цвет
     $("#colors").find(":button").on('click', function () {
         tmp_ctx.strokeStyle = $(this).attr('id');
@@ -63,17 +78,22 @@
         drawBrush();
     });
 
+    //При выборе толщины линии отрисовывать новую линию
+    document.getElementById("width_range").addEventListener("change", function () {
+        tmp_ctx.lineWidth = document.getElementById("width_range").value / 2;
+        drawBrush();
+    });
+    //При выборе прозрачности линии отрисовывать новую линию
+    document.getElementById("opacity_range").addEventListener("change", function () {
+        tmp_ctx.globalAlpha = document.getElementById("opacity_range").value / 100;
+        drawBrush();
+    });
 
-    //Устанавливаем координаты мыши на основной и доп. областях
-    tmp_canvas.addEventListener('mousemove', function (e) {
-        mouse.x = typeof e.offsetX !== 'undefined' ? e.offsetX : e.layerX;
-        mouse.y = typeof e.offsetY !== 'undefined' ? e.offsetY : e.layerY;
-    }, false);
-
-    canvas.addEventListener('mousemove', function (e) {
-        mouse.x = typeof e.offsetX !== 'undefined' ? e.offsetX : e.layerX;
-        mouse.y = typeof e.offsetY !== 'undefined' ? e.offsetY : e.layerY;
-    }, false);
+    //Очистка области
+    document.getElementById("clear").addEventListener("click", function () {
+        ctx.clearRect(0, 0, tmp_canvas.width, tmp_canvas.height);
+    });
+    //ЗАКАНЧИВАЕМ УСТАНАВЛИВАТЬ НАСТРОЙКИ ИЗ HTML
 
 
     //Пример линии
@@ -91,10 +111,9 @@
         context_small.fill();
 
     };
-
-
+    //значения по умолчанию
     //Толщина линии
-    tmp_ctx.lineWidth = document.getElementById("width_range").value;
+    tmp_ctx.lineWidth = document.getElementById("width_range").value / 2;
     //Значения по умолчанию
     tmp_ctx.lineJoin = 'round';
     tmp_ctx.lineCap = 'round';
@@ -107,42 +126,110 @@
     empty_canv = canvas.toDataURL();
     undo_arr.push(empty_canv);
 
-    //mousedown
+    //Устанавливаем координаты мыши на основной и доп. областях
+    tmp_canvas.addEventListener('mousemove', function (e) {
+        mouse.x = typeof e.offsetX !== 'undefined' ? e.offsetX : e.layerX;
+        mouse.y = typeof e.offsetY !== 'undefined' ? e.offsetY : e.layerY;
+    }, false);
+
     tmp_canvas.addEventListener('mousedown', function (e) {
         tmp_canvas.addEventListener('mousemove', onPaint, false);
+        if (tool == "text") {
+            var lines = textarea.value.split('\n');
+            var processed_lines = [];
 
+            for (var i = 0; i < lines.length; i++) {
+                var chars = lines[i].length;
+
+                for (var j = 0; j < chars; j++) {
+                    var text_node = document.createTextNode(lines[i][j]);
+                    tmp_txt_ctn.appendChild(text_node);
+
+                    // Since tmp_txt_ctn is not taking any space
+                    // in layout due to display: none, we gotta
+                    // make it take some space, while keeping it
+                    // hidden/invisible and then get dimensions
+                    tmp_txt_ctn.style.position = 'absolute';
+                    tmp_txt_ctn.style.visibility = 'hidden';
+                    tmp_txt_ctn.style.display = 'block';
+
+                    var width = tmp_txt_ctn.offsetWidth;
+
+                    tmp_txt_ctn.style.position = '';
+                    tmp_txt_ctn.style.visibility = '';
+                    tmp_txt_ctn.style.display = 'none';
+
+                    if (width > parseInt(textarea.style.width)) {
+                        break;
+                    }
+                }
+
+                processed_lines.push(tmp_txt_ctn.textContent);
+                tmp_txt_ctn.innerHTML = '';
+            }
+
+            var ta_comp_style = getComputedStyle(textarea);
+            var fs = ta_comp_style.getPropertyValue('font-size');
+            var ff = ta_comp_style.getPropertyValue('font-family');
+
+            tmp_ctx.font = fs + ' ' + ff;
+            tmp_ctx.textBaseline = 'top';
+
+            for (var n = 0; n < processed_lines.length; n++) {
+                var processed_line = processed_lines[n];
+
+                tmp_ctx.fillText(
+                    processed_line,
+                    parseInt(textarea.style.left),
+                    parseInt(textarea.style.top) + n * parseInt(fs)
+                );
+            }
+
+            textarea.style.display = 'none';
+            textarea.value = '';
+        }
         mouse.x = typeof e.offsetX !== 'undefined' ? e.offsetX : e.layerX;
         mouse.y = typeof e.offsetY !== 'undefined' ? e.offsetY : e.layerY;
 
+        //если выбрана вставка, то по клику вставляем изображение
+        if (tool == "paste") {
+            ctx.putImageData(imgData, mouse.x, mouse.y);
+        }
+
+        if(tool == "copy"){
+            lastColor = tmp_ctx.strokeStyle;
+            lastWidth = tmp_ctx.lineWidth;
+        }
         start_mouse.x = mouse.x;
         start_mouse.y = mouse.y;
 
-        //Координаты точек помещаем в массив для отрисовки
         ppts.push({x: mouse.x, y: mouse.y});
-
-
-        //Инструмент для распылителя
-        sprayIntervalID = setInterval(onPaint, 50);
-
-        //Выбираем элемент и рисуем
-        onPaint();
 
     }, false);
 
-    //Mouseup
+    //при отпускании мыши прекращаем двигать textarea
+    textarea.addEventListener('mouseup', function () {
+        tmp_canvas.removeEventListener('mousemove', onPaint, false);
+    });
+
     tmp_canvas.addEventListener('mouseup', function () {
         tmp_canvas.removeEventListener('mousemove', onPaint, false);
 
-        //Для стерки, чтобы наезжающие элементы становились прозрачные
+        //отменяем дейсвие стерки
         ctx.globalCompositeOperation = 'source-over';
-        clearInterval(sprayIntervalID);
 
-        //Отрисовываем на основной области
-        ctx.drawImage(tmp_canvas, 0, 0);
-        //Очищаем временную область
+        // Writing down to real canvas now
+        if (tool != "copy") {
+            ctx.drawImage(tmp_canvas, 0, 0);
+        }else{
+            tmp_ctx.setLineDash([0, 0]);
+            tmp_ctx.strokeStyle = lastColor;
+            tmp_ctx.lineWidth = lastWidth;
+        }
+        // Clearing tmp canvas
         tmp_ctx.clearRect(0, 0, tmp_canvas.width, tmp_canvas.height);
 
-        //Чистим массив точек для карандаша
+        // Emptying up Pencil Points
         ppts = [];
 
         //Помещаем в массив для отмены
@@ -150,6 +237,47 @@
         undo_count = 0;
     }, false);
 
+
+    //СОХРАНЕНИЕ ИЗОБРАЖЕНИЯ
+    //вызов функции загрузки
+    var callDownload = function () {
+        download(paint, 'myPicture.png');
+    };
+    //по нажатию вызыем функцию callDownload
+    document.getElementById("id_download").addEventListener("click", callDownload);
+    //загрузка
+    function download(canvas, filename) {
+
+
+        //create a dummy CANVAS
+
+
+        // create an "off-screen" anchor tag
+        var lnk = document.createElement('a'),
+            e;
+
+        // the key here is to set the download attribute of the a tag
+        lnk.download = filename;
+
+        // convert canvas content to data-uri for link. When download
+        // attribute is set the content pointed to by link will be
+        // pushed as "download" in HTML5 capable browsers
+        lnk.href = canvas.toDataURL();
+
+        // create a "fake" click-event to trigger the download
+        if (document.createEvent) {
+
+            e = new MouseEvent("click", {});
+
+            lnk.dispatchEvent(e);
+
+        } else if (lnk.fireEvent) {
+
+            lnk.fireEvent("onclick");
+        }
+    }
+
+    //ОПЕРАЦИЯ ОТМНЫ И ВОЗВРАТА
     //Отменить
     document.getElementById("undo").addEventListener("click", function () {
         if (undo_arr.length > 1) {
@@ -171,10 +299,7 @@
                 }
             }
         }
-
-
     });
-
     //Вернуть
     document.getElementById("redo").addEventListener("click", function () {
         if (undo_count > 0) {
@@ -183,44 +308,21 @@
         }
 
     });
+    var UndoFunc = function (count) {
 
-    //При выборе толщины линии отрисовывать новую линию
-    document.getElementById("width_range").addEventListener("change", function () {
-        tmp_ctx.lineWidth = document.getElementById("width_range").value / 2;
 
-        drawBrush();
-    });
-    //При выборе прозрачности линии отрисовывать новую линию
-    document.getElementById("opacity_range").addEventListener("change", function () {
-        tmp_ctx.globalAlpha = document.getElementById("opacity_range").value / 100;
-        drawBrush();
-    });
+        var number = undo_arr.length;
+        var img_data = undo_arr[number - (count + 1)];
+        var undo_img = new Image();
 
-    //Очистка области
-    document.getElementById("clear").addEventListener("click", function () {
+        undo_img.src = img_data.toString();
+
         ctx.clearRect(0, 0, tmp_canvas.width, tmp_canvas.height);
-    });
-
-    //Рисуем круг
-    var onPaintCircle = function () {
-
-        //Всегда очищаем временную область перед отрисовкой
-        tmp_ctx.clearRect(0, 0, tmp_canvas.width, tmp_canvas.height);
-
-        var x = (mouse.x + start_mouse.x) / 2;
-        var y = (mouse.y + start_mouse.y) / 2;
-
-        var radius = Math.max(
-                Math.abs(mouse.x - start_mouse.x),
-                Math.abs(mouse.y - start_mouse.y)
-            ) / 2;
-
-        tmp_ctx.beginPath();
-        tmp_ctx.arc(x, y, radius, 0, Math.PI * 2, false);
-        tmp_ctx.stroke();
-        tmp_ctx.closePath();
+        ctx.drawImage(undo_img, 0, 0);
     };
 
+
+    //ОТРИСОВКА ЭЛЕМЕНТОВ
     //Рисуем карандашом
     var onPaintBrush = function () {
 
@@ -258,7 +360,26 @@
             ppts[i + 1].y
         );
         tmp_ctx.stroke();
+    };
 
+    //Рисуем круг
+    var onPaintCircle = function () {
+
+        //Всегда очищаем временную область перед отрисовкой
+        tmp_ctx.clearRect(0, 0, tmp_canvas.width, tmp_canvas.height);
+
+        var x = (mouse.x + start_mouse.x) / 2;
+        var y = (mouse.y + start_mouse.y) / 2;
+
+        var radius = Math.max(
+                Math.abs(mouse.x - start_mouse.x),
+                Math.abs(mouse.y - start_mouse.y)
+            ) / 2;
+
+        tmp_ctx.beginPath();
+        tmp_ctx.arc(x, y, radius, 0, Math.PI * 2, false);
+        tmp_ctx.stroke();
+        tmp_ctx.closePath();
     };
 
     //Рисуем прямую линию
@@ -282,6 +403,7 @@
         //Всегда очищаем временную область перед отрисовкой
         tmp_ctx.clearRect(0, 0, tmp_canvas.width, tmp_canvas.height);
 
+
         var x = Math.min(mouse.x, start_mouse.x);
         var y = Math.min(mouse.y, start_mouse.y);
         var width = Math.abs(mouse.x - start_mouse.x);
@@ -289,29 +411,7 @@
         tmp_ctx.strokeRect(x, y, width, height);
     };
 
-    var onCopy = function () {
-
-        //Всегда очищаем временную область перед отрисовкой
-        tmp_ctx.clearRect(0, 0, tmp_canvas.width, tmp_canvas.height);
-
-        var x = Math.min(mouse.x, start_mouse.x);
-        var y = Math.min(mouse.y, start_mouse.y);
-        var width = Math.abs(mouse.x - start_mouse.x);
-        var height = Math.abs(mouse.y - start_mouse.y);
-        tmp_ctx.setLineDash([5, 15]);
-        tmp_ctx.strokeRect(x, y, width, height);
-        tmp_ctx.clearRect(0, 0, tmp_canvas.width, tmp_canvas.height);
-        tmp_ctx.setLineDash([0, 0]);
-        imgData = ctx.getImageData(x, y, width, height);
-    };
-
-    var onPaste = function () {
-        var x = Math.min(mouse.x, start_mouse.x);
-        var y = Math.min(mouse.y, start_mouse.y);
-        ctx.putImageData(imgData, x, y);
-    };
-
-
+    //Рисуем эллипс
     function drawEllipse(ctx) {
 
 
@@ -342,10 +442,10 @@
         ctx.stroke();
     }
 
-
+    //Стерка
     var onErase = function () {
 
-        // Saving all the points in an array
+        //Сохраняем все точки в массив
         ppts.push({x: mouse.x, y: mouse.y});
 
         ctx.globalCompositeOperation = 'destination-out';
@@ -365,9 +465,6 @@
             return;
         }
 
-        // Tmp canvas is always cleared up before drawing.
-        // ctx.clearRect(0, 0, canvas.width, canvas.height);
-
         ctx.beginPath();
         ctx.moveTo(ppts[0].x, ppts[0].y);
 
@@ -386,9 +483,9 @@
             ppts[i + 1].y
         );
         ctx.stroke();
-
     };
 
+    //Спрей
     var getRandomOffset = function (radius) {
 
         var random_angle = Math.random() * (2 * Math.PI);
@@ -399,7 +496,6 @@
             y: Math.sin(random_angle) * random_radius
         };
     };
-
     var generateSprayParticles = function () {
         // Particle count, or, density
         var density = tmp_ctx.lineWidth * 2;
@@ -414,61 +510,46 @@
         }
     };
 
-    var UndoFunc = function (count) {
+    //копировать
+    var onCopy = function () {
+        //Всегда очищаем временную область перед отрисовкой
+        tmp_ctx.clearRect(0, 0, tmp_canvas.width, tmp_canvas.height);
 
 
-        var number = undo_arr.length;
-        var img_data = undo_arr[number - (count + 1)];
-        var undo_img = new Image();
 
-        undo_img.src = img_data.toString();
+        console.log(lastWidth);
+        console.log(lastColor);
 
-        ctx.clearRect(0, 0, tmp_canvas.width, tmp_canvas.height);
-        ctx.drawImage(undo_img, 0, 0);
-
-
-        //window.alert('undoing');
-
-
+        tmp_ctx.strokeStyle = 'black';
+        tmp_ctx.lineWidth = 2;
+        tmp_ctx.setLineDash([3, 15]);
+        var x = Math.min(mouse.x, start_mouse.x);
+        var y = Math.min(mouse.y, start_mouse.y);
+        var width = Math.abs(mouse.x - start_mouse.x) + 1;
+        var height = Math.abs(mouse.y - start_mouse.y) + 1;
+        tmp_ctx.strokeRect(x, y, width, height);
+        imgData = ctx.getImageData(x, y, width, height);
     };
 
-    var callDownload = function () {
-        download(paint, 'myPicture.png');
+
+    //рисуем текст
+    var onText = function () {
+
+        // Tmp canvas is always cleared up before drawing.
+        tmp_ctx.clearRect(0, 0, tmp_canvas.width, tmp_canvas.height);
+
+        var x = Math.min(mouse.x, start_mouse.x);
+        var y = Math.min(mouse.y, start_mouse.y);
+        var width = Math.abs(mouse.x - start_mouse.x);
+        var height = Math.abs(mouse.y - start_mouse.y);
+
+        textarea.style.left = x + 'px';
+        textarea.style.top = y + 'px';
+        textarea.style.width = width + 'px';
+        textarea.style.height = height + 'px';
+
+        textarea.style.display = 'block';
     };
-
-    document.getElementById("id_download").addEventListener("click", callDownload);
-
-    function download(canvas, filename) {
-
-
-        //create a dummy CANVAS
-
-
-        // create an "off-screen" anchor tag
-        var lnk = document.createElement('a'),
-            e;
-
-        // the key here is to set the download attribute of the a tag
-        lnk.download = filename;
-
-        // convert canvas content to data-uri for link. When download
-        // attribute is set the content pointed to by link will be
-        // pushed as "download" in HTML5 capable browsers
-        lnk.href = canvas.toDataURL();
-
-        // create a "fake" click-event to trigger the download
-        if (document.createEvent) {
-
-            e = new MouseEvent("click", {});
-
-            lnk.dispatchEvent(e);
-
-        } else if (lnk.fireEvent) {
-
-            lnk.fireEvent("onclick");
-        }
-    }
-
 
     var onPaint = function () {
 
@@ -503,8 +584,8 @@
         else if (tool == 'copy') {
             onCopy();
         }
-        else if (tool == 'paste') {
-            onPaste();
+        else if (tool == 'text') {
+            onText();
         }
 
     };
