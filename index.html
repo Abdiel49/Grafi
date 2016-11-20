@@ -1,58 +1,92 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+    <title>Paint-js</title>
     <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 <body>
+<h1>Курсовая работа по<br> компьютерной графике</h1>
 
 <div id="content">
-  <span id="tools">
-     <button id="brush">Brush</button>
-     <button id="line">Line</button>
-     <button id="rectangle">Rectangle</button>
-     <button id="circle">Circle</button>
-     <button id="ellipse">Ellipse</button>
-     <button id="spray">Spray</button>
-     <button id="eraser">Eraser</button><br>
-     <button id="copy">Copy</button>
-     <button id="paste">Paste</button>
-     <button id="text">Текст</button>
-     Text size
-     <input type="number" id="text-size" min="6" max="100" value="14">
-  </span>
+    <div id="tools">
+        <button id="brush">Кисть</button>
+        <button id="line">Линия</button>
+        <button id="rectangle">Прямоугольник</button>
+        <button id="circle">Круг</button>
+        <button id="ellipse">Эллипс</button>
+        <button id="spray">Распылитель</button>
+        <button id="eraser">Стерка</button>
+        <button id="fill">Заливка</button>
+        <br>
+        <button id="copy">Копировать</button>
+        <button id="copyrand">Копировать пр.обл.</button>
+        <button id="paste">Вставить</button>
+        <button id="text">Текст</button>
+        Размер шрифта
+        <input type="number" id="text-size" min="6" max="100" value="14">
+        Шрифт
+        <select id = "font">
+            <option value="LucidaConsole">Lucida Console</option>
+            <option value="Courier New">Courier New</option>
+            <option value="Arial">Arial</option>
+            <option value="ArialBlack">Arial Black</option>
+        </select>
+    </div>
+    <div id="colors">
+        <button class="black" id="#000000"></button>
+        <button class="white" id='#FFFFFF'></button>
+        <button class="blue" id='#0000FF'></button>
+        <button class="red" id='#FF0000'></button>
+        <button class="yellow" id='#FFFF00'></button>
+        <button class="green" id='#008000'></button>
+        <button class="purple" id='#800080'></button>
+        <input type="color" id="color">
 
-    <span id="colors">
-			<button class="black" id="#000000"> </button>
-			<button class="white" id='#FFFFFF'> </button>
-			<button class="blue" id='#0000FF'> </button>
-		  	<button class="red" id='#FF0000'> </button>
-			<button class="yellow" id='#FFFF00'> </button>
-			<button class="green" id='#008000'> </button>
-			<button class="purple" id='#800080'> </button>
-
-			<input type="hidden" id="color_value_form">
-    </span>
+        <input type="hidden" id="color_value_form">
+    </div>
 
     <div id="areaForPaint">
         <canvas id="paint"></canvas>
     </div>
 
+
     <div id="functions">
+
+
+        <button id="undo">Отменить</button>
+        <button id="redo">Вернуть</button>
+        <button id="id_download">Сохранить</button>
+        <button id="clear">Очистить</button>
         <br>
-        <button id="undo">Undo</button>
-        <button id="redo">Redo</button>
-        <button id="id_download">Download</button>
-        <button id="clear">Clear</button>
-        <br>
+
         <canvas id="brush_size" width="50" height="50"></canvas>
-        Brush
-        Size <input type="range" id="width_range" value="10">
-        Opacity <input type="range" id="opacity_range" value="100">
+        Размер кисти <input type="range" id="width_range" value="10">
+        Прозрачность <input type="range" id="opacity_range" value="100">
 
     </div>
 </div>
+<p>Первоначально сделано</p>
+<ul>
+    <li>Кисть</li>
+    <li>Прямоугольник</li>
+    <li>Стерка</li>
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+</ul>
+<p>Сделал после первого показа</p>
+<ul>
+    <li>Выбор цвета</li>
+    <li>Очистка области</li>
+    <li>Рисование фигур(круг, элипс)</li>
+    <li>Изменение размера линии</li>
+    <li>Изменение прозрачности линии</li>
+    <li>Аналог "Отменить действие" и "Вернуть"</li>
+    <li>Сохранение изображения на компьютер</li>
+    <li>Линия - распылитель</li>
+    <li>Буферизация(копировать,вставить)</li>
+    <li>Текстовая строка(с возможностью выбора размера текста)</li>
+</ul>
+
+<script src="jquery.min.js"></script>
 <script src="script.js"></script>
 
 </body>
