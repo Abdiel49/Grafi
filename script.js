@@ -95,6 +95,7 @@
         b = hexToRgb(tmp_ctx.strokeStyle).b;
         tmp_ctx.fillStyle = tmp_ctx.strokeStyle;
         console.log("color = ", tmp_ctx.strokeStyle);
+        document.getElementById("color").value = $(this).attr('id');
         //Рисуем пример нашей линии
         drawBrush();
     });
