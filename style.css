@@ -31,12 +31,47 @@ h1,h2{
     white-space: nowrap;
 }
 
+#tools{
+    padding-top: 20px;
+    float: left;
+    width: 300px;
+    margin-left: 50px;
+}
+
+#colors{
+    float: left;
+    position: absolute;
+    margin-top: 380px;
+    width: 70px;
+    margin-left: 290px;
+}
+
+#tools *{
+    margin: 5px;
+}
+
+#functions{
+    position: absolute;
+    margin-left: 900px;
+    width: 200px;
+    margin-top: -400px;
+    float: right;
+}
+
+#functions *{
+    margin-top: 7px;
+}
+
+#copy{
+    margin-top: 40px;
+}
+
 #content{
     text-align: center;
 }
 
 
-.black, .white, .blue, .green, .yellow, .red, .purple {
+.black, .white, .blue, .green, .yellow, .red {
 
     width: 20px;
     height: 20px;
