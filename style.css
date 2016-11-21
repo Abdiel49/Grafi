@@ -1,4 +1,6 @@
-
+h1,h2{
+    text-align: center;
+}
 
 #areaForPaint {
     border: 5px solid darkblue;
@@ -6,8 +8,9 @@
     background-color: darkgray  ;
     width: 500px;
     position: relative;
+    left: 50%;
+    margin: 0 -250px;
 }
-
 #tmp_canvas {
     position: absolute;
     left: 0px;
@@ -27,6 +30,11 @@
     overflow: hidden;
     white-space: nowrap;
 }
+
+#content{
+    text-align: center;
+}
+
 
 .black, .white, .blue, .green, .yellow, .red, .purple {
 
