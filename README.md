@@ -17,19 +17,23 @@ To draw:<br>
 -spray<br>
 -eraser<br>
 -text<br>
+-fill
 
 To use:<br>
 -change color<br>
 -change line width<br>
 -change line opacity<br>
 -change text size<br>
+-change text font
 -undo<br>
 -redo<br>
 -clear<br>
 -download picture on your computer<br>
--copy/paste any region
+-copy rectangle are<br>
+-copy random area<br>
+-paste
 
 
-For copy:<br> 1.Click on copy.<br> 2.Select any region.<br> 3.Now click on paste.<br> 4.Click in random region on canvas and the image will be inserted.
+For copy random area:<br> 1.Click on copy random area.<br> 2.Select any region.<br> 3.Click inside area.<br> 4.Click Paste and on random area on canvas and the image will be inserted.
 
 Notice: if you click in button undo, when canvas contains only one drawing object, you cant to redo this object. 
