@@ -27,12 +27,17 @@
         Размер шрифта
         <input type="number" id="text-size" min="6" max="100" value="14">
         Шрифт
-        <select id = "font">
+        <select id="font">
             <option value="LucidaConsole">Lucida Console</option>
             <option value="Courier New">Courier New</option>
             <option value="Arial">Arial</option>
             <option value="ArialBlack">Arial Black</option>
         </select>
+    </div>
+    <div id="manage">
+        <canvas id="brush_size" width="50" height="50"></canvas>
+        Размер кисти <input type="range" id="width_range" value="10">
+        Прозрачность <input type="range" id="opacity_range" value="100">
     </div>
     <div id="colors">
         <button class="black" id="#000000"></button>
@@ -41,9 +46,14 @@
         <button class="red" id='#FF0000'></button>
         <button class="yellow" id='#FFFF00'></button>
         <button class="green" id='#008000'></button>
-        <input type="color" id="color">
-
+        <input type="color" id="color" value="#0000FF">
         <input type="hidden" id="color_value_form">
+    </div>
+    <div id="functions">
+        <button id="undo">Отменить</button>
+        <button id="redo">Вернуть</button>
+        <button id="id_download">Сохранить</button>
+        <button id="clear">Очистить</button>
     </div>
 
     <div id="areaForPaint">
@@ -51,20 +61,7 @@
     </div>
 
 
-    <div id="functions">
 
-
-        <button id="undo">Отменить</button>
-        <button id="redo">Вернуть</button>
-        <button id="id_download">Сохранить</button>
-        <button id="clear">Очистить</button>
-        <br>
-
-        <canvas id="brush_size" width="50" height="50"></canvas>
-        Размер кисти <input type="range" id="width_range" value="10">
-        Прозрачность <input type="range" id="opacity_range" value="100">
-
-    </div>
 </div>
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
