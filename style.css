@@ -11,6 +11,10 @@ h1,h2{
     left: 50%;
     margin: 0 -250px;
 }
+
+#paint{
+    margin-top: -265px;
+}
 #tmp_canvas {
     position: absolute;
     left: 0px;
@@ -35,15 +39,23 @@ h1,h2{
     padding-top: 20px;
     float: left;
     width: 300px;
-    margin-left: 50px;
+    margin-left: 100px;
 }
 
 #colors{
     float: left;
     position: absolute;
-    margin-top: 380px;
+    margin-top: 310px;
     width: 70px;
     margin-left: 290px;
+}
+
+#manage{
+    float: left;
+    position: absolute;
+    width: 100px;
+    margin-top: 240px;
+    margin-left: 100px;
 }
 
 #tools *{
@@ -51,16 +63,17 @@ h1,h2{
 }
 
 #functions{
+    float: left;
     position: absolute;
-    margin-left: 900px;
     width: 200px;
-    margin-top: -400px;
-    float: right;
+    margin-top: 400px;
+    margin-left: 140px;
 }
 
 #functions *{
-    margin-top: 7px;
+    margin: 5px;
 }
+
 
 #copy{
     margin-top: 40px;
