@@ -6,7 +6,7 @@ This app have some code on jquery. But you can rewrite some lines and to do this
 
 Example: https://medwedd.github.io/js-paint/
 
-You can clone this: 'git clone git://github.com/medwedd/js-paint.git'
+You can clone this: `git clone git://github.com/medwedd/js-paint.git`
 
 It has the following features:
 
