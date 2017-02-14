@@ -6,27 +6,26 @@
     <meta charset="utf-8">
 </head>
 <body>
-<h1>Курсовая работа по<br> компьютерной графике</h1>
 
 <div id="content">
     <div id="tools">
-        <button id="brush">Кисть</button>
-        <button id="line">Линия</button>
-        <button id="rectangle">Прямоугольник</button>
-        <button id="circle">Круг</button>
-        <button id="ellipse">Эллипс</button>
-        <button id="spray">Распылитель</button>
-        <button id="eraser">Стерка</button>
-        <button id="fill">Заливка</button>
+        <button id="brush">Brash</button>
+        <button id="line">Line</button>
+        <button id="rectangle">Rectangle</button>
+        <button id="circle">Circle</button>
+        <button id="ellipse">Ellipse</button>
+        <button id="spray">Spray</button>
+        <button id="eraser">Eraser</button>
+        <button id="fill">Fill</button>
         <br>
-        <button id="copy">Копировать</button>
-        <button id="copyrand">Копировать пр.обл.</button>
-        <button id="paste">Вставить</button>
-        <button id="text">Текст</button>
+        <button id="copy">Copy</button>
+        <button id="copyrand">Copy random area</button>
+        <button id="paste">Paste</button>
+        <button id="text">Text</button>
         <br><div style="margin-left: 70px">
-        Размер шрифта
+        Text size
         <input type="number" id="text-size" min="6" max="100" value="14">
-        <br>Шрифт
+        <br>Font
         <select id="font">
             <option value="LucidaConsole">Lucida Console</option>
             <option value="Courier New">Courier New</option>
@@ -36,8 +35,8 @@
     </div>
     <div id="manage">
         <canvas id="brush_size" width="50" height="50"></canvas>
-        Размер кисти <input type="range" id="width_range" value="10" min="1">
-        Прозрачность <input type="range" id="opacity_range" value="100">
+        Brash size <input type="range" id="width_range" value="10" min="1">
+        Opacity <input type="range" id="opacity_range" value="100">
     </div>
     <div id="colors">
         <button class="black" id="#000000"></button>
@@ -50,10 +49,10 @@
         <input type="hidden" id="color_value_form">
     </div>
     <div id="functions">
-        <button id="undo">Отменить</button>
-        <button id="redo">Вернуть</button>
-        <button id="id_download">Сохранить</button>
-        <button id="clear">Очистить</button>
+        <button id="undo">Undo</button>
+        <button id="redo">Redo</button>
+        <button id="id_download">Save</button>
+        <button id="clear">Clear</button>
     </div>
 
     <div id="areaForPaint">
