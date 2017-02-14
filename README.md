@@ -4,7 +4,9 @@ This is simple paint, which use canvas(html5).
 If you wants to use this, you can dowload this and save on your server.
 This app have some code on jquery. But you can rewrite some lines and to do this without jquery.
 
-Example: http://cssdeck.com/labs/full/nzef27so
+Example: https://medwedd.github.io/js-paint/
+
+You can clone this: git clone git://github.com/medwedd/js-paint.git
 
 It has the following features:
 
