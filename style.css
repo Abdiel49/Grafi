@@ -1,19 +1,17 @@
-h1,h2{
-    text-align: center;
-}
 
 #areaForPaint {
-    border: 5px solid darkblue;
+    border: 5px solid rgb(69, 69, 75);
     height: 450px;
-    background-color: darkgray  ;
+    background-color: rgb(212, 209, 209)  ;
     width: 500px;
     position: relative;
+
     left: 50%;
-    margin: 0 -250px;
+    margin: 0 ;
 }
 
 #paint{
-    margin-top: -275px;
+    margin-top: -218px;
 }
 #tmp_canvas {
     position: absolute;
@@ -45,8 +43,8 @@ h1,h2{
 #colors{
     float: left;
     position: absolute;
-    margin-top: 310px;
-    width: 70px;
+    margin-top: 290px;
+    width: 150px;
     margin-left: 290px;
 }
 
@@ -66,12 +64,13 @@ h1,h2{
     float: left;
     position: absolute;
     width: 200px;
-    margin-top: 400px;
+    margin-top: 0px;
     margin-left: 140px;
+    left:270px;
 }
 
 #functions *{
-    margin: 5px;
+    margin: 0px;
 }
 
 
@@ -86,8 +85,8 @@ h1,h2{
 
 .black, .white, .blue, .green, .yellow, .red {
 
-    width: 20px;
-    height: 20px;
+    width: 35px;
+    height: 35px;
 }
 
 .black {

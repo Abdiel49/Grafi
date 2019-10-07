@@ -4,41 +4,34 @@
     <title>Paint-js</title>
     <link rel="stylesheet" type="text/css" href="style.css"/>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=PT+Serif&display=swap" rel="stylesheet">
 </head>
 <body>
-<h1>Simple paint on js<br> with canvas</h1>
 <div id="content">
     <div id="tools">
-        <button id="brush">Brash</button>
-        <button id="line">Line</button>
-        <button id="rectangle">Rectangle</button>
-        <button id="circle">Circle</button>
-        <button id="ellipse">Ellipse</button>
-        <button id="spray">Spray</button>
-        <button id="eraser">Eraser</button>
-        <button id="fill">Fill</button>
+        <button type="button" class="btn btn-light btn-sm" id="brush"><img src="https://img.icons8.com/cotton/24/000011/paint-brush.png"id="brush"></button>
+        <button type="button" class="btn btn-light btn-sm" id="spray"><img src="https://img.icons8.com/office/24/000000/deodorant-spray.png"></button>
+        <button type="button" class="btn btn-light btn-sm" id="fill"><img src="https://img.icons8.com/offices/24/000000/fill-color.png"></button>
+        <button type="button" class="btn btn-light btn-sm" id="eraser"><img src="https://img.icons8.com/cotton/24/000000/erase.png"></button>
+        
+        <button type="button" class="btn btn-light btn-sm" id="line"><img src="https://img.icons8.com/ultraviolet/24/000000/line.png"></button>
+        <button type="button" class="btn btn-light btn-sm" id="rectangle"><img src="https://img.icons8.com/nolan/24/000000/rectangle-stroked.png"></button>
+        <button type="button" class="btn btn-light btn-sm" id="circle"><img src="https://img.icons8.com/nolan/24/000000/unchecked-circle.png"></button>
+        <button type="button" class="btn btn-light btn-sm" id="ellipse"><img src="https://img.icons8.com/nolan/24/000000/triangle-stroked.png"></button>
         <br>
-        <button id="copy">Copy</button>
-        <button id="copyrand">Copy random area</button>
-        <button id="paste">Paste</button>
-        <button id="text">Text</button>
-        <br><div style="margin-left: 70px">
-        Text size
-        <input type="number" id="text-size" min="6" max="100" value="14">
-        <br>Font
-        <select id="font">
+        <br>
+        <button class="btn btn-light btn-sm" id="text"><img src="https://img.icons8.com/office/24/000000/text-box.png"></button>
+        <input  class="btn btn-light btn-sm" type="number" id="text-size" min="6" max="100" value="14">
+        
+        <select class="btn btn-light btn-sm" id="font">
             <option value="LucidaConsole">Lucida Console</option>
             <option value="Courier New">Courier New</option>
             <option value="Arial">Arial</option>
             <option value="ArialBlack">Arial Black</option>
-        </select></div>
+        </select>
     </div>
-    <div id="manage">
-        <canvas id="brush_size" width="50" height="50"></canvas>
-        Brash size <input type="range" id="width_range" value="10" min="1">
-        Opacity <input type="range" id="opacity_range" value="100">
-    </div>
-    <div id="colors">
+    <div id="colors" style="left:-180px">
         <button class="black" id="#000000"></button>
         <button class="white" id='#FFFFFF'></button>
         <button class="blue" id='#0000FF'></button>
@@ -48,11 +41,22 @@
         <input type="color" id="color" value="#0000FF">
         <input type="hidden" id="color_value_form">
     </div>
+    <div id="manage" style="left:15%">
+        <canvas id="brush_size" width="50" height="50"  ></canvas>
+        <br>
+        <label for="width_range"style="font-family: 'PT Serif', serif;">Tamaño pincel:
+        <input type="range" id="width_range" value="10" min="1">
+        <label for="opacity_range" style="font-family: 'PT Serif', serif;">Transparencia:
+        <input type="range" id="opacity_range" value="100">
+    </div>
+    <br>
+
     <div id="functions">
-        <button id="undo">Undo</button>
-        <button id="redo">Redo</button>
-        <button id="id_download">Save</button>
-        <button id="clear">Clear</button>
+        <p id="undo"></p>
+        <p id="redo"></p>
+        <button type="button" class="btn btn-light btn-sm" id="id_download"><img src="https://img.icons8.com/color/32/000000/save-close.png"></button>
+        <br>
+        <button type="button" class="btn btn-light btn-sm" id="clear"><img src="https://img.icons8.com/color/32/000000/broom.png"></button>
     </div>
 
     <div id="areaForPaint">
