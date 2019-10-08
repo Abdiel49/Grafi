@@ -11,7 +11,7 @@
 }
 
 #paint{
-    margin-top: -218px;
+    margin-top: -361px;
 }
 #tmp_canvas {
     position: absolute;
@@ -41,7 +41,7 @@
 }
 
 #colors{
-    float: left;
+    float: left;\
     position: absolute;
     margin-top: 290px;
     width: 150px;
@@ -79,9 +79,11 @@
 }
 
 #content{
-    margin: 0 auto;
-    padding: 0 auto;
-    text-align: center;
+   /*width: 90%;
+   max-width: 1000px;
+   display:flex;*/
+   text-align: center;
+   background: #e3e4e4;
 }
 
 

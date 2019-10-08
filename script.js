@@ -475,6 +475,13 @@
 
     };
 
+    var onPaintLineBresenham = function(){
+
+    };
+
+    var onPaintCircleBresenham = function(){
+
+    };
     //Рисуем прямоугольник
     var onPaintRect = function () {
 
@@ -807,6 +814,12 @@
             onPaintLine();
         }
 
+        else if (tool == 'lineBres') {
+            onPaintLineBresenham();
+        }
+        else if (tool == 'circleBres') {
+            onPaintCircleBresenham();
+        }
         else if (tool == 'rectangle') {
             onPaintRect();
         }
