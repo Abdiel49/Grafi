@@ -475,12 +475,126 @@
 
     };
 
-    var onPaintLineBresenham = function(){
-
+    function dibujarPixel(x,y,color){
+      var canvas = document.getElementById("canvas1");
+      var ctx = canvas.getContext("2d");
+      //context.lineTo(x,y);
+      //context.setPixel(x,y);
+      ctx.beginPath();
+      ctx.arc(x,y,4, 0, 2* Math.PI);
+      ctx.fillStyle = color;
+      ctx.fill();
+      ctx.stroke();
     };
 
-    var onPaintCircleBresenham = function(){
+    var onPaintLineBresenham = function(x00,y00,x11,y11){
+        var x, y, dx, dy, p, sigX, sigY;
+        var x0=parseInt(coord[2],10),
+            y0=parseInt(coord[3],10),
+            x1=parseInt(coord[0],10),
+            y1=parseInt(coord[1],10);
 
+        dx = (x1 - x0);
+        dy = (y1 - y0);
+        if (dy < 0) {
+    	    dy = -dy;
+    		sigY = -1;
+    	  }
+    	  else{
+    	  	sigY = 1;
+        }
+        if (dx < 0) {
+    	    dx = -dx;
+    		sigX = -1;
+    	  }
+    	  else {
+    	  	sigX = 1;
+    	  }
+        onPaintLine();
+    	  x = x0;
+          y = y0;
+          // console.log(typeof x);
+          // console.log(typeof y);
+          // console.log(typeof x0);
+          // console.log(typeof y0);
+    	/* se cicla hasta llegar al extremo de la línea */
+    	if(dx>dy){
+    	    p = 2*dy - dx;
+    	    while (x != x1){
+
+                  console.log(x," - x  ", x1);
+    		      x = x + sigX;
+    		      if (p < 0){
+    		        p = p + (2*dy);
+    		      }
+    		      else {
+    		        y = y + sigY;
+    		        p = p + (2*(dy-dx));
+    		      }
+                  //console.log(x," - ",y)
+                  dibujarPixel(x,y);
+                  //ctx.beginPath();
+                  //ctx.arc(x,y,3, 0, 2 * Math.PI);
+                  //ctx.fillStyle = "red"; // color de las estrellas
+                  //ctx.fill();
+    //              ctx.stroke();
+                   // ctx.putImageData(imageData, x, y);
+    	    }
+    	}
+    	else{
+    	    p = 2*dx - dy;
+    	    while (y != y1){
+                  y = y + sigY;
+                  console.log(y," - y ", y1);
+    		      if (p < 0){
+    		        p = p + 2*dy;
+    		      }
+    		      else {
+    		        x = x + sigX;
+    		        p = p + 2*(dy-dx);
+                  }
+                  //console.log(x," - ",y)
+                  dibujarPixel(x,y,"#87CEFA");
+                  //ctx.beginPath();
+                  //ctx.arc(x,y,3, 0, 2 * Math.PI);
+                  //ctx.fillStyle = "red"; // color de las estrellas
+                  //ctx.fill();
+                  //ctx.stroke();
+                  //ctx.putImageData(imageData, x, y);
+    	    }
+        }
+    };
+//https://img.icons8.com
+   var onPaintCircleBresenham = function(r,xc,yc){
+      // Punto inicial del círculo
+      var color = "#7A60E7";
+      x = 0;
+      y = parseInt(r);
+      // Cálcular el parámetro inicial de decisión
+      var pk = 1-r;
+      // verificar el pk para determinar las posiciones de pixel siguuiente
+      onPaintCircle();
+      while (x<=y)
+      {
+      dibujarPixel( xc+x,yc+y,color);
+      dibujarPixel( xc-x,yc+y,color);
+      dibujarPixel( xc+x,yc-y,color);
+      dibujarPixel( xc-x,yc-y,color);
+      dibujarPixel( yc+y,xc+x,color);
+      dibujarPixel( yc-y,xc+x,color);
+      dibujarPixel( yc+y,xc-x,color);
+      dibujarPixel( yc-y,xc-x,color);
+      if (pk<0){
+          pk+=2*(x+1)+1;
+          x++;
+      }
+      else // pk>=0
+      {
+          pk+=2*(x+1)+1 - 2*(y-1);
+          x++;
+          y--;
+      }
+      }
     };
     //Рисуем прямоугольник
     var onPaintRect = function () {
@@ -496,7 +610,9 @@
         tmp_ctx.strokeRect(x, y, width, height);
     };
 
-    //Рисуем эллипс
+    function drawTriangle(){
+
+    }
     function drawEllipse(ctx) {
 
 
@@ -826,6 +942,9 @@
 
         else if (tool == 'ellipse') {
             drawEllipse(tmp_ctx);
+        }
+        else if (tool == 'triangle') {
+            drawTriangle(tmp_ctx);
         }
 
 
